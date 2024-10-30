@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'flashcards',
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
+    'djoser',
 ]
 
 MIDDLEWARE = [
@@ -83,6 +84,8 @@ DATABASES = {
     }
 }
 
+
+AUTH_USER_MODEL = 'flashcards.CustomUser'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -129,6 +132,15 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+}
+DJOSER = {
+    'LOGIN_FIELD': 'username',  # Puedes usar 'email' si prefieres autenticar con email
+    'SERIALIZERS': {
+        'user_create': 'your_app.serializers.UserSerializer',  # Cambia 'your_app' por el nombre de tu app
+        'user': 'your_app.serializers.UserSerializer',
+    },
+    'USER_ID_FIELD': 'id',
+    'HIDE_USERS': True,
 }
 
 # Opcionalmente, puedes personalizar los tiempos de expiración del token.

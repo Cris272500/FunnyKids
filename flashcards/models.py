@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
-class User(AbstractUser):
+class CustomUser(AbstractUser):
     ROLES = [
         ('estudiante', 'estudiante'),
         ('profesor', 'profesor'),
@@ -10,24 +10,6 @@ class User(AbstractUser):
     ]
 
     rol = models.CharField(max_length=20, choices=ROLES)
-
-    # Definir un related_name diferente para evitar conflictos
-    groups = models.ManyToManyField(
-        'auth.Group',
-        related_name='custom_user_set',  # Cambiado de 'user_set' a 'custom_user_set'
-        blank=True,
-        help_text='The groups this user belongs to.',
-        verbose_name='groups',
-    )
-    
-    user_permissions = models.ManyToManyField(
-        'auth.Permission',
-        related_name='custom_user_permissions_set',  # Cambiado de 'user_set' a 'custom_user_permissions_set'
-        blank=True,
-        help_text='Specific permissions for this user.',
-        verbose_name='user permissions',
-    )
-
     def __str__(self):
         return f"{self.username} || {self.rol}"
 
@@ -55,7 +37,7 @@ class EstudianteProgresos(models.Model):
         ('completado', 'completado'),
     ]
 
-    estudiante = models.ForeignKey(User, on_delete=models.CASCADE, related_name='progreso', limit_choices_to={'rol': 'estudiante'})
+    estudiante = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='progreso', limit_choices_to={'rol': 'estudiante'})
     flashcard = models.ForeignKey(Flashcard, on_delete=models.CASCADE, related_name='progreso')
     estado = models.CharField(max_length=20, choices=ESTADOS_CHOICES)
     intentos = models.IntegerField(default=0)
@@ -78,16 +60,16 @@ class Actividad(models.Model):
 
 class EstudianteActividad(models.Model):
     actividad = models.ForeignKey(Actividad, on_delete=models.CASCADE, related_name='estudiante_actividad')
-    estudiante = models.ForeignKey(User, on_delete=models.CASCADE, related_name='estudiante_actividad', limit_choices_to={'rol': 'estudiante'})
+    estudiante = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='estudiante_actividad', limit_choices_to={'rol': 'estudiante'})
     score = models.IntegerField(default=0)
     completado_en = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.actividad} || {self.estudiante.username} || {self.score}"
+        return f"{self.actividad} || {self.estudiante.CustomUsername} || {self.score}"
 
 class PadreEstudiante(models.Model):
-    padre = models.ForeignKey(User, on_delete=models.CASCADE, related_name='hijos', limit_choices_to={'rol': 'padre'})
-    estudiante = models.ForeignKey(User, on_delete=models.CASCADE, related_name='padre', limit_choices_to={'rol': 'estudiante'})
+    padre = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='hijos', limit_choices_to={'rol': 'padre'})
+    estudiante = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='padre', limit_choices_to={'rol': 'estudiante'})
 
     def __str__(self):
-        return f"{self.padre.username} || {self.estudiante.username}"
+        return f"{self.padre.CustomUsername} || {self.estudiante.CustomUsername}"
