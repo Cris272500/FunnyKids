@@ -16,7 +16,15 @@ class CustomUserSerializer(serializers.ModelSerializer):
         if password:
             user.set_password(password)  # Encripta la contraseña
         user.save()
+
         return user
+    
+    def get_tokens(self, user):
+        refresh = RefreshToken.for_user(user)
+        return {
+            'refresh': str(refresh),
+            'access': str(refresh.access_token)
+        }
 
     def update(self, instance, validated_data):
         password = validated_data.pop('password', None)

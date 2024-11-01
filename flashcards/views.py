@@ -30,6 +30,18 @@ class CustomUserViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
 
+    def create(self, request, *args, **kwargs):
+        serializer = CustomUserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        user_data = serializer.save()
+        tokens = serializer.get_tokens(user_data)
+
+        return Response({
+            "user": CustomUserSerializer(user_data, context=self.get_serializer_context()).data,
+            "tokens": tokens
+        }, status=status.HTTP_201_CREATED)
+
 class FlashcardViewSet(viewsets.ModelViewSet):
     queryset = Flashcard.objects.all()
     serializer_class = FlashcardSerializer
