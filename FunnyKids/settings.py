@@ -132,6 +132,9 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
 }
 DJOSER = {
     'LOGIN_FIELD': 'username',  # Puedes usar 'email' si prefieres autenticar con email

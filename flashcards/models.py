@@ -24,9 +24,10 @@ class Flashcard(models.Model):
     palabra = models.CharField(max_length=300)
     traduccion = models.CharField(max_length=300)
     imagen_url = models.URLField()
-    audio_url = models.URLField()
+    audio_url = models.URLField(null=True)
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
+    creador = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return f"{self.palabra} || {self.traduccion}"

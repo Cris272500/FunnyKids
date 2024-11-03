@@ -7,8 +7,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.exceptions import PermissionDenied
+from rest_framework.permissions import AllowAny
 
 class LoginView(APIView):
+    permission_classes = [AllowAny] # esto es para permitir ver sin autenticar
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
@@ -27,6 +30,7 @@ def hola(request):
     return HttpResponse("hola")
 
 class CustomUserViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny] # esto es para permitir ver sin autenticar
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
 
@@ -43,8 +47,25 @@ class CustomUserViewSet(viewsets.ModelViewSet):
         }, status=status.HTTP_201_CREATED)
 
 class FlashcardViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny] # esto es para permitir ver sin autenticar
     queryset = Flashcard.objects.all()
     serializer_class = FlashcardSerializer
+
+    def perform_create(self, serializer):
+        # verificamos si no esta autenticado
+        if not self.request.user.is_authenticated:
+            raise PermissionDenied("Debe estar autenticado para crear flashcards")
+        # si no es un profesor
+        if self.request.user.rol != 'profesor':
+            raise PermissionDenied("Solo profesores pueden crear flashcards")
+        
+        # si es un profesor se guarda
+        serializer.save(creador=self.request.user)
+
+class CategoriaViewSet(viewsets.ModelViewSet):
+    permission_classes = [AllowAny] # esto es para permitir ver sin autenticar
+    queryset = Categoria.objects.all()
+    serializer_class = CategoriaSerializer
 
 class EstudianteProgresosViewSet(viewsets.ModelViewSet):
     queryset = EstudianteProgresos.objects.all()

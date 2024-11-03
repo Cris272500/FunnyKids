@@ -75,7 +75,8 @@ class CategoriaSerializer(serializers.ModelSerializer):
 class FlashcardSerializer(serializers.ModelSerializer):
     class Meta:
         model = Flashcard
-        fields = '__all__'
+        fields = ['id', 'palabra', 'traduccion', 'imagen_url', 'audio_url', 'categoria', 'fecha_creacion', 'creador']
+        read_only_fields = ['fecha_creacion', 'creador']
     
 class EstudianteProgresosSerializer(serializers.ModelSerializer):
     class Meta:
