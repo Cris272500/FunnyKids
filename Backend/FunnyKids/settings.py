@@ -40,10 +40,11 @@ INSTALLED_APPS = [
     'flashcards',
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
-    'djoser',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -52,6 +53,12 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'FunnyKids.urls'
 
@@ -136,15 +143,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ),
 }
-DJOSER = {
-    'LOGIN_FIELD': 'username',  # Puedes usar 'email' si prefieres autenticar con email
-    'SERIALIZERS': {
-        'user_create': 'your_app.serializers.UserSerializer',  # Cambia 'your_app' por el nombre de tu app
-        'user': 'your_app.serializers.UserSerializer',
-    },
-    'USER_ID_FIELD': 'id',
-    'HIDE_USERS': True,
-}
+
 
 # Opcionalmente, puedes personalizar los tiempos de expiración del token.
 from datetime import timedelta
