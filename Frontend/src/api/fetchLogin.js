@@ -14,7 +14,8 @@ export async function fetchLogin(username, password) {
         });
         if (!response.ok) {
             const errorMessage = await response.json();
-            throw new Error(errorMessage.detail || "Error al iniciar sesión");
+            console.error(`Error login: ${JSON.stringify(errorMessage)}`);
+            throw new Error(errorMessage.message);
         }
 
         return await response.json();

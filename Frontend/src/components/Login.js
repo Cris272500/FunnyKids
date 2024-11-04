@@ -34,8 +34,8 @@ export default class Login {
     }
 
     async handleLogin() {
-        const username = this.container.querySelector('#username').value;
-        const password = this.container.querySelector('#password').value;
+        const username = this.container.querySelector('#username-login').value;
+        const password = this.container.querySelector('#password-login').value;
         const errorMessage = this.container.querySelector('#login-error');
 
 
@@ -47,7 +47,8 @@ export default class Login {
             console.log(`Data: ${JSON.stringify(data)}`);
 
             // si todo ocurrio exitoso, mostramos una alerta de inicio de sesion con sweetalert
-            if (data.ok) {
+            if (data) {
+                errorMessage.style.display = 'none';
                 Swal.fire({
                     title: '¡Inicio de sesión exitoso!',
                     text: 'Has iniciado sesión correctamente.',
@@ -64,7 +65,8 @@ export default class Login {
                 errorMessage.innerText = data.message;
             }
         } catch (error) {
-            this.container.querySelector('#login-error').innerText = error.message;
+            errorMessage.style.display = 'block';
+            errorMessage.innerText = error.message;
         }
     }
 

@@ -59,16 +59,30 @@ class LoginSerializer(serializers.Serializer):
         if username and password:
             user = authenticate(username=username, password=password)
             print(f"Usuario: {user}")
+
+            if user is None:
+                # verificamos si el usuario existe en la bd
+                if CustomUser.objects.filter(username=username).exists():
+                    raise serializers.ValidationError({
+                        'message': 'La contraseña es incorrecta.'
+                    })
+                else:
+                    raise serializers.ValidationError({
+                        'message': 'El usuario no existe.'
+                    })
             
-            if user:
-                if not user.is_active:
-                    raise serializers.ValidationError('Esta cuenta esta inactiva')
-                return user
-            else:
-                # error, el usuario no existe
-                raise serializers.ValidationError('Credenciales invalidas//el usuario no existe')
+            if not user.is_active:
+                raise serializers.ValidationError({
+                    'message': 'El usuario no esta activo.'
+                })
+            
+            
+            return user
+        
         else:
             raise serializers.ValidationError('Faltan credenciales')
+        
+        
     
     def get_tokens(self, user):
         refresh = RefreshToken.for_user(user)
