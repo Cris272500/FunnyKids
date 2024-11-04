@@ -2,9 +2,11 @@ import { fetchLogin } from "../api/fetchLogin";
 //import './styles.css';
 
 export default class Login {
-    constructor() {
+    constructor(onSuccess) {
         this.container = document.createElement('div');
         this.container.classList.add('login');
+
+        this.onSuccess = onSuccess;
 
         this.render();
     }
@@ -38,8 +40,6 @@ export default class Login {
         const password = this.container.querySelector('#password-login').value;
         const errorMessage = this.container.querySelector('#login-error');
 
-
-
         try {
             const data = await fetchLogin(username, password);
             console.log(`Login exitoso: ${data}`);
@@ -47,8 +47,10 @@ export default class Login {
             console.log(`Data: ${JSON.stringify(data)}`);
 
             // si todo ocurrio exitoso, mostramos una alerta de inicio de sesion con sweetalert
-            if (data) {
+            if (data && data.tokens) {
                 errorMessage.style.display = 'none';
+                localStorage.setItem('accessToken', data.tokens.access);
+                localStorage.setItem('refreshToken', data.tokens.refresh);
                 Swal.fire({
                     title: '¡Inicio de sesión exitoso!',
                     text: 'Has iniciado sesión correctamente.',
@@ -57,7 +59,7 @@ export default class Login {
                   }).then((result) => {
                     if (result.isConfirmed) {
                       // Aquí puedes agregar la lógica de redirección o envío de datos
-                      alert('Has iniciado sesión correctamente.');
+                      this.onSuccess();
                     }
                 });
             } else {

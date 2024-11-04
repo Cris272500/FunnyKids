@@ -3,9 +3,11 @@ import { fetchRegister } from "../api/fetchRegister";
 //import './styles.css';
 
 export default class Register {
-    constructor() {
+    constructor(onSuccess) {
         this.container = document.createElement('div');
         this.container.classList.add('register');
+
+        this.onSuccess = onSuccess;
 
         this.render();
     }
@@ -76,7 +78,9 @@ export default class Register {
         try {
             const data = await fetchRegister(username, email, password, role);
 
-            if (data){
+            if (data && data.tokens) {
+                localStorage.setItem('accessToken', data.tokens.access);
+                localStorage.setItem('refreshToken', data.tokens.refresh);
                 errorMessage.style.display = 'none';
                 Swal.fire({
                     title: '¡Registro exitoso!',
@@ -85,7 +89,7 @@ export default class Register {
                     confirmButtonText: 'Aceptar'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        alert("Cuenta creada exitosamente");
+                        this.onSuccess();
                     }
                 })
             }
