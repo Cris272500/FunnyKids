@@ -11,6 +11,16 @@ class CustomUserSerializer(serializers.ModelSerializer):
         extra_kwargs = {'password': {'write_only': True}}  # Evita que la contraseña se muestre en las respuestas
 
     def create(self, validated_data):
+        # validamos que si el usuario exista lance un error
+        username = validated_data.get('username')
+        email = validated_data.get('email')
+
+        if CustomUser.objects.filter(username=username).exists():
+            raise serializers.ValidationError({'message': 'El usuario ya existe'})
+        if CustomUser.objects.filter(email=email).exists():
+            raise serializers.ValidationError({'message': 'El email ya existe'})
+
+
         password = validated_data.pop('password', None)
         user = CustomUser(**validated_data)
         if password:

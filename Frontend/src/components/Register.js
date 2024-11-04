@@ -92,7 +92,13 @@ export default class Register {
             console.log('Registration successful:', data);
             // Aquí puedes manejar el éxito, como redirigir al login
         } catch (error) {
-            this.container.querySelector('#register-error').innerText = error.message;
+            // Aquí ahora tomamos el error como un objeto
+            let errorText = '';
+
+            errorText = error.message;
+
+            errorMessage.innerText = errorText; // Asigna el mensaje de error
+            errorMessage.style.display = 'block'; // Muestra el párrafo
         }
     }
 

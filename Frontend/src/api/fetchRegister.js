@@ -16,13 +16,15 @@ export async function fetchRegister(username, email, password, rol) {
         });
 
         if (!response.ok) {
-            const errorMessage = await response.json();
-            throw new Error(errorMessage.detail || 'Error al registrar el usuario');
+            const errorResponse = await response.json();
+            console.error(`El error es: ${JSON.stringify(errorResponse)}`);
+            // Lanza un nuevo error y asigna el contenido de errorResponse
+            throw { ...errorResponse }; // Aquí lanzamos el objeto de error directamente
         }
 
         return await response.json();
 
     } catch (error) {
-        throw new Error(error.message || 'Error de conexión');
+        throw new Error(error.message || 'Username o email ya existen');
     }
 }
