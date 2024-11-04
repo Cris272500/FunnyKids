@@ -1,5 +1,6 @@
 // src/components/Register.js
 import { fetchRegister } from "../api/fetchRegister";
+//import './styles.css';
 
 export default class Register {
     constructor() {
@@ -13,22 +14,33 @@ export default class Register {
         this.container.innerHTML = `
             <h2>Register</h2>
             <form id="register-form">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username" required />
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required />
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required />
-                <label for="role">Rol:</label>
-                <select id="role" name="role" required>
-                    <option value="">Seleccione un rol</option>
-                    <option value="estudiante">Estudiante</option>
-                    <option value="profesor">Profesor</option>
-                    <option value="padre">Padre</option>
-                </select>
-                <button type="submit">Register</button>
+                <div class="form-group">
+                    <label for="username">Nombre de Usuario</label>
+                    <input type="text" id="username" placeholder="Nombre de usuario" required />
+                </div>
+                <div class="form-group">
+                    <label for="email">Correo Electrónico</label>
+                    <input type="email" id="email" placeholder="tucorreo@ejemplo.com" required />
+                </div>
+                <div class="form-group">
+                    <label>Rol</label>
+                    <select id="rol">
+                        <option value="estudiante">Estudiante</option>
+                        <option value="profesor">Profesor</option>
+                        <option value="padre">Padre</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" required />
+                </div>
+                <div class="form-group">
+                    <label for="confirmation">Confirmar Contraseña</label>
+                    <input type="password" id="confirmation" required />
+                </div>
+                <button type="submit">Registrarse</button>
+                <p id="register-error" class="error-message" style="display: none; color: red;"></p>
             </form>
-            <p id="register-error" style="color: red;"></p>
         `;
 
         this.container.querySelector('#register-form').addEventListener('submit', (e) => {
@@ -41,10 +53,42 @@ export default class Register {
         const username = this.container.querySelector('#username').value;
         const email = this.container.querySelector('#email').value;
         const password = this.container.querySelector('#password').value;
-        const role = this.container.querySelector('#role').value;
+        const role = this.container.querySelector('#rol').value;
+        const confirmation = this.container.querySelector('#confirmation').value;
+        const errorMessage = this.container.querySelector('#register-error');
+
+        let errorText = '';
+
+        if (password.length < 6) {
+            errorText += 'La contraseña debe tener al menos 6 caracteres';
+        }
+
+        if (password !== confirmation) {
+            errorText += 'Las contraseña no coinciden';
+        }
+
+        if (errorText) {
+            errorMessage.innerText = errorText;
+            errorMessage.style.display = 'block';
+            return;
+        }
 
         try {
             const data = await fetchRegister(username, email, password, role);
+
+            if (data){
+                errorMessage.style.display = 'none';
+                Swal.fire({
+                    title: '¡Registro exitoso!',
+                    text: 'Tu cuenta ha sido creada exitosamente.',
+                    icon: 'success',
+                    confirmButtonText: 'Aceptar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        alert("Cuenta creada exitosamente");
+                    }
+                })
+            }
             console.log('Registration successful:', data);
             // Aquí puedes manejar el éxito, como redirigir al login
         } catch (error) {

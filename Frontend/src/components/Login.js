@@ -1,4 +1,5 @@
 import { fetchLogin } from "../api/fetchLogin";
+//import './styles.css';
 
 export default class Login {
     constructor() {
@@ -13,14 +14,17 @@ export default class Login {
             <h2>Login</h2>
             
             <form id="login-form">
-                <label for="username">Username:</label>
-                <input type="text" id="username" name="username">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password">
-                <button type="submit">Login</button>
+                <div class="form-group">
+                    <label for="username-login">Nombre de Usuario</label>
+                    <input type="text" id="username-login" placeholder="Nombre de usuario" required />
+                </div>
+                <div class="form-group">
+                    <label for="password-login">Contraseña</label>
+                    <input type="password" id="password-login" required />
+                </div>
+                <button type="submit">Iniciar sesión</button>
+                <p id="login-error" class="error-message" style="display: none; color: red;"></p>
             </form>
-
-            <p id="login-error" style="color: red;"></p>
         `;
 
         this.container.querySelector('#login-form').addEventListener('submit', (e) => {
@@ -32,12 +36,33 @@ export default class Login {
     async handleLogin() {
         const username = this.container.querySelector('#username').value;
         const password = this.container.querySelector('#password').value;
+        const errorMessage = this.container.querySelector('#login-error');
+
+
 
         try {
             const data = await fetchLogin(username, password);
             console.log(`Login exitoso: ${data}`);
             // usando stringify
             console.log(`Data: ${JSON.stringify(data)}`);
+
+            // si todo ocurrio exitoso, mostramos una alerta de inicio de sesion con sweetalert
+            if (data.ok) {
+                Swal.fire({
+                    title: '¡Inicio de sesión exitoso!',
+                    text: 'Has iniciado sesión correctamente.',
+                    icon: 'success',
+                    confirmButtonText: 'Aceptar'
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      // Aquí puedes agregar la lógica de redirección o envío de datos
+                      alert('Has iniciado sesión correctamente.');
+                    }
+                });
+            } else {
+                errorMessage.style.display = 'block';
+                errorMessage.innerText = data.message;
+            }
         } catch (error) {
             this.container.querySelector('#login-error').innerText = error.message;
         }
