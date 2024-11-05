@@ -49,6 +49,7 @@ export default class Login {
             // si todo ocurrio exitoso, mostramos una alerta de inicio de sesion con sweetalert
             if (data && data.tokens) {
                 errorMessage.style.display = 'none';
+                localStorage.setItem('user', JSON.stringify(data.user));
                 localStorage.setItem('accessToken', data.tokens.access);
                 localStorage.setItem('refreshToken', data.tokens.refresh);
                 Swal.fire({

@@ -79,6 +79,7 @@ export default class Register {
             const data = await fetchRegister(username, email, password, role);
 
             if (data && data.tokens) {
+                localStorage.setItem('user', JSON.stringify(data.user));
                 localStorage.setItem('accessToken', data.tokens.access);
                 localStorage.setItem('refreshToken', data.tokens.refresh);
                 errorMessage.style.display = 'none';

@@ -10,8 +10,19 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import AllowAny
 
+# esto es para la documentacion de la API
+from drf_spectacular.utils import extend_schema, extend_schema_view
+
 class LoginView(APIView):
     permission_classes = [AllowAny] # esto es para permitir ver sin autenticar
+
+    @extend_schema(
+        summary='Autenticar usuario',
+        description='Esta ruta permite autenticar al usuario. El usuario debe enviar un email y una contraseña. El servidor retornara un token de acceso y un token de refresco.',
+        request=LoginSerializer,
+        responses={200: CustomUserSerializer, 400: 'Error al autenticar'}
+    )
+    
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
@@ -29,6 +40,23 @@ class LoginView(APIView):
 def hola(request):
     return HttpResponse("hola")
 
+
+@extend_schema_view(
+    list=extend_schema(
+        summary='Listar usuarios',
+        description='Esta ruta permite listar todos los usuarios.',
+    ),
+    retrieve=extend_schema(
+        summary='Obtener usuario',
+        description='Devuelve un usuario en particular por su id.',
+    ),
+    create=extend_schema(
+        summary='Crear usuario',
+        description='Crea un nuevo usuario.',
+        request=CustomUserSerializer,
+        responses={201: CustomUserSerializer, 400: 'Error al crear usuario'},
+    )
+)
 class CustomUserViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny] # esto es para permitir ver sin autenticar
     queryset = CustomUser.objects.all()
