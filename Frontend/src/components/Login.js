@@ -16,11 +16,11 @@ export default class Login {
             <h2>Login</h2>
             
             <form id="login-form">
-                <div class="form-group">
+                <div class="form-group-main">
                     <label for="username-login">Nombre de Usuario</label>
                     <input type="text" id="username-login" placeholder="Nombre de usuario" required />
                 </div>
-                <div class="form-group">
+                <div class="form-group-main">
                     <label for="password-login">Contraseña</label>
                     <input type="password" id="password-login" required />
                 </div>

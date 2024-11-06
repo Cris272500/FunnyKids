@@ -16,15 +16,15 @@ export default class Register {
         this.container.innerHTML = `
             <h2>Register</h2>
             <form id="register-form">
-                <div class="form-group">
+                <div class="form-group-main">
                     <label for="username">Nombre de Usuario</label>
                     <input type="text" id="username" placeholder="Nombre de usuario" required />
                 </div>
-                <div class="form-group">
+                <div class="form-group-main">
                     <label for="email">Correo Electrónico</label>
                     <input type="email" id="email" placeholder="tucorreo@ejemplo.com" required />
                 </div>
-                <div class="form-group">
+                <div class="form-group-main">
                     <label>Rol</label>
                     <select id="rol">
                         <option value="estudiante">Estudiante</option>
@@ -32,11 +32,11 @@ export default class Register {
                         <option value="padre">Padre</option>
                     </select>
                 </div>
-                <div class="form-group">
+                <div class="form-group-main">
                     <label for="password">Contraseña</label>
                     <input type="password" id="password" required />
                 </div>
-                <div class="form-group">
+                <div class="form-group-main">
                     <label for="confirmation">Confirmar Contraseña</label>
                     <input type="password" id="confirmation" required />
                 </div>

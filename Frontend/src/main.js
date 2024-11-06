@@ -8,14 +8,18 @@ const app = document.getElementById("app");
 export function redirectToIndex() {
   const indexComponent = new Index();
   app.innerHTML = '';
-  app.classList.remove('container');
+  app.classList.remove('container-main');
   app.appendChild(indexComponent.getElement());
 }
 
 export function renderAuthView() {
+  // Remover el estilo dinámico de la vista anterior si existe
+  const dynamicStyle = document.getElementById("dynamic-styles");
+  if (dynamicStyle) dynamicStyle.remove();
+
   app.innerHTML = `
-    <div class="container">
-      <div class="card">
+    <div class="container-main">
+      <div class="card-main">
         <h1>Funny Kids</h1>
         <p id="form-title">Crear una nueva cuenta o iniciar sesión</p>
         <div class="button-group">
