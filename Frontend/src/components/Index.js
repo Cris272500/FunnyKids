@@ -1,6 +1,8 @@
 // Index.js
 
 import './index.css'
+import { fetchCategorias } from '../api/fetchCategorias';
+import { fetchCreateFlashcard } from '../api/fetchCreateFlashcard';
 
 export default class Index {
     getElement() {
@@ -53,14 +55,39 @@ export default class Index {
 
                             <div class="card-content">
                                 <form id="flashcardForm" class="form">
+                                    <!-- Campo para la palabra -->
                                     <div class="form-group">
-                                        <label for="question">Pregunta</label>
-                                        <textarea id="question" placeholder="Escribe tu pregunta aquí" class="textarea"></textarea>
+                                        <label for="palabra">Palabra</label>
+                                        <input type="text" id="palabra" placeholder="Escribe la palabra aquí" class="input" required>
                                     </div>
+
+                                    <!-- Campo para la traducción -->
                                     <div class="form-group">
-                                        <label for="answer">Respuesta</label>
-                                        <textarea id="answer" placeholder="Escribe la respuesta aquí" class="textarea"></textarea>
+                                        <label for="traduccion">Traducción</label>
+                                        <input type="text" id="traduccion" placeholder="Escribe la traducción aquí" class="input" required>
                                     </div>
+
+                                    <!-- Campo para la URL de la imagen -->
+                                    <div class="form-group">
+                                        <label for="imagen_url">URL de la Imagen</label>
+                                        <input type="url" id="imagen_url" placeholder="Ingresa la URL de la imagen" class="input" required>
+                                    </div>
+
+                                    <!-- Campo para la URL del audio (opcional) -->
+                                    <div class="form-group">
+                                        <label for="audio_url">URL del Audio</label>
+                                        <input type="url" id="audio_url" placeholder="Ingresa la URL del audio (opcional)" class="input">
+                                    </div>
+
+                                    <!-- Campo para la categoría (select) -->
+                                    <div class="form-group">
+                                        <label for="categoria">Categoría</label>
+                                        <select id="categoria" class="select" required>
+                                            <option value="">Selecciona una categoría</option>
+                                            <!-- Las opciones de categorías se deben poblar dinámicamente -->
+                                        </select>
+                                    </div>
+
                                     <button type="submit" class="submit-button">
                                         <svg class="icon plus-icon"></svg>
                                         Crear Flashcard
@@ -78,6 +105,10 @@ export default class Index {
 
 
             `;
+
+            // Aqui obtenemos las categorias disponibles
+            this.loadCategories(element.querySelector('#categoria'));
+            
             // Evento para el botón de cerrar sesión
             element.querySelector('#logout-button').addEventListener('click', () => {
                 localStorage.removeItem('accessToken');
@@ -86,18 +117,105 @@ export default class Index {
                 localStorage.setItem("showAuthView", "true"); // Establece la señal
                 window.location.reload(); // Recarga la página
             });
+
+            // Evento para el botón de crear flashcard
+            element.querySelector('#flashcardForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                await this.handleCreateFlashcard();
+            });
     
             return element;
+            
         } catch (error) {
 
             // En caso que no tenga los tokens
             localStorage.setItem("showAuthView", "true"); // Establece la señal
             window.location.reload(); // Recarga la página
         }
-        finally {
-            
-        }
 
 
     }
+
+    async loadCategories(selectElement) {
+        try {
+            const categories = await fetchCategorias();
+
+            if (selectElement) {
+                categories.forEach((category) => {
+                    const option = document.createElement('option');
+                    option.value = category.id;
+                    option.textContent = category.nombre;
+                    selectElement.appendChild(option);
+                });
+            }
+        } catch (error) {
+            console.error(`Error al cargar las categorías: ${error}`);
+        }
+    }
+
+    async handleCreateFlashcard() {
+        const palabra = document.getElementById('palabra').value;
+        const traduccion = document.getElementById('traduccion').value;
+        const imagen_url = document.getElementById('imagen_url').value;
+        const audio_url = document.getElementById('audio_url').value;
+        const categoria = document.getElementById('categoria').value;
+
+        // obtenemos el token
+        const refreshToken = localStorage.getItem('refreshToken');
+        console.log(`RefreshToken: ${refreshToken}`);
+        //console.log(`AccesToken: ${accessToken}`);
+
+        if (!refreshToken) {
+            // mostramos una alerta con sweetalert
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Debes iniciar sesión para crear flashcards',
+            });
+            return;
+        }
+
+        const flashcardData = {
+            palabra,
+            traduccion,
+            imagen_url,
+            audio_url:audio_url ? audio_url : null,
+            categoria,
+        };
+
+        // llamada al endpoint
+        try {
+            const response = await fetchCreateFlashcard(flashcardData, refreshToken);
+
+            if (response) {
+                // mostramos una alerta con sweetalert
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Flashcard creado con exito',
+                    text: 'Tu flashcard ha sido creado exitosamente',
+                });
+                // limpiamos los campos
+                document.getElementById('palabra').value = '';
+                document.getElementById('traduccion').value = '';
+                document.getElementById('imagen_url').value = '';
+                document.getElementById('audio_url').value = '';
+                document.getElementById('categoria').value = '';
+            } else {
+                // mostrando el problema / error al crear la flashcard
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: response.message,
+                });
+            }
+        } catch (error) {
+            console.error(`Error al crear la flashcard: ${error}`);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Error al crear la flashcard',
+            })
+        }
+    }
+
 }

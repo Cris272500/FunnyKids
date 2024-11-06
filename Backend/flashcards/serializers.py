@@ -97,6 +97,7 @@ class CategoriaSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class FlashcardSerializer(serializers.ModelSerializer):
+    audio_url = serializers.URLField(allow_null=True, required=False, default=None)
     class Meta:
         model = Flashcard
         fields = ['id', 'palabra', 'traduccion', 'imagen_url', 'audio_url', 'categoria', 'fecha_creacion', 'creador']

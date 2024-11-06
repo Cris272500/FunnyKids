@@ -3,6 +3,9 @@ body, html {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
   .min-h-screen {
     min-height: 100vh;
@@ -17,6 +20,12 @@ body, html {
     align-items: center;
     padding: 0 1rem;
     border-bottom: 1px solid #ccc;
+    position: fixed;  /* Asegúrate de que esté fijo en la parte superior */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Asegúrate de que esté encima de otros elementos */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Le da un sutil borde */
   }
   .navbar-content {
     display: flex;
@@ -52,6 +61,12 @@ body, html {
     height: 16px;
     fill: #888;
   }
+
+  /* Contenedor principal */
+.index-container {
+  margin-top: 15rem; /* Asegúrate de que el contenido principal no quede oculto debajo del navbar */
+}
+
   .navbar-links {
     display: none;
   }
@@ -77,6 +92,7 @@ body, html {
   }
   .container {
     padding: 1rem;
+    flex-grow: 1; /* Asegura que el contenedor crezca */
   }
   .grid {
     display: grid;

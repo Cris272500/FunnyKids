@@ -10,8 +10,28 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import AllowAny
 
+from rest_framework_simplejwt.views import TokenRefreshView
+from rest_framework_simplejwt.exceptions import TokenError
+
+
 # esto es para la documentacion de la API
 from drf_spectacular.utils import extend_schema, extend_schema_view
+
+class CustomTokenRefreshView(TokenRefreshView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        refresh_token = request.data.get('refresh')
+
+        if not refresh_token:
+            return Response({'detail': 'Refresh token is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            refresh = RefreshToken(refresh_token)
+            new_access_token = refresh.access_token
+            return Response({'access': str(new_access_token)}, status=status.HTTP_200_OK)
+        except TokenError:
+            return Response({'detail': 'Invalid refresh token'}, status=status.HTTP_401_UNAUTHORIZED)
 
 class LoginView(APIView):
     permission_classes = [AllowAny] # esto es para permitir ver sin autenticar
@@ -78,6 +98,7 @@ class FlashcardViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny] # esto es para permitir ver sin autenticar
     queryset = Flashcard.objects.all()
     serializer_class = FlashcardSerializer
+    
 
     def perform_create(self, serializer):
         # verificamos si no esta autenticado
