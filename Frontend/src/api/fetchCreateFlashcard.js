@@ -34,12 +34,12 @@ export async function fetchCreateFlashcard(flashcard, refreshToken) {
         if (!response.ok) {
             const errorMessage = await response.json();
             console.error(`Error al crear la flashcard: ${JSON.stringify(errorMessage)}`);
-            throw new Error(errorMessage.message);
+            throw new Error(errorMessage.detail);
         }
 
         return await response.json();
     } catch (error) {
         console.error("Error de conexión o al crear la flashcard: ", error);
-        throw new Error(error.message || "Error de conexión");
+        throw new Error(error.detail || "Error de conexión");
     }
 }

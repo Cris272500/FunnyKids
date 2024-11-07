@@ -3,6 +3,7 @@
 import './index.css'
 import { fetchCategorias } from '../api/fetchCategorias';
 import { fetchCreateFlashcard } from '../api/fetchCreateFlashcard';
+import { fetchFlashCardsUser } from '../api/fetchFlashCardsUser';
 
 export default class Index {
     getElement() {
@@ -108,6 +109,9 @@ export default class Index {
 
             // Aqui obtenemos las categorias disponibles
             this.loadCategories(element.querySelector('#categoria'));
+
+            // aqui obtenemos las flashcards del usuario
+            this.renderFlashcardsbyTeacher(element.querySelector('#flashcardsContainer'));
             
             // Evento para el botón de cerrar sesión
             element.querySelector('#logout-button').addEventListener('click', () => {
@@ -134,6 +138,55 @@ export default class Index {
         }
 
 
+    }
+
+    async renderFlashcardsbyTeacher() {
+        const refreshToken = localStorage.getItem('refreshToken');
+
+        if (!refreshToken) {
+            // mostramos una alerta con sweetalert
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'No tienes acceso a este recurso'
+            });
+        }
+
+        try {
+            const flashcards = await fetchFlashCardsUser(refreshToken);
+
+            const flashcardsContainer = document.getElementById('flashcardsContainer');
+
+            if (flashcards.length === 0) {
+                flashcardsContainer.innerHTML = '<p>No hay flashcards disponibles.</p>';
+                return;
+            }
+
+            flashcardsContainer.innerHTML = '';
+
+            flashcards.forEach((flashcard) => {
+                const flashcardElement = document.createElement('div');
+                flashcardElement.classList.add('col-12', 'col-sm-6', 'col-md-4', 'col-lg-3', 'mb-4','bg-white');
+
+                flashcardElement.innerHTML = `
+                    <div class="flashcard-item">
+                        <img src="${flashcard.imagen_url}" class="flashcard-img-top img-fluid" alt="${flashcard.palabra}">
+                        <div class="flashcard-body">
+                            <h5 class="flashcard-title">${flashcard.palabra}</h5>
+                            <p class="flashcard-text">${flashcard.traduccion}</p>
+                            <a href="#" class="btn btn-primary btn-sm">Escuchar</a>
+                        </div>
+                    </div>
+                `;
+
+                // Agregar la tarjeta al contenedor
+                flashcardsContainer.appendChild(flashcardElement);
+            });
+            
+            //flashcardsContainer.appendChild(flashcardElement);
+        } catch (error) {
+            console.error(`Error al cargar las flashcards: ${error}`);
+        }
     }
 
     async loadCategories(selectElement) {
@@ -200,20 +253,25 @@ export default class Index {
                 document.getElementById('imagen_url').value = '';
                 document.getElementById('audio_url').value = '';
                 document.getElementById('categoria').value = '';
+
+                // volvemos a cargar las flashcards
+                this.renderFlashcardsbyTeacher();
             } else {
                 // mostrando el problema / error al crear la flashcard
+                const errorMessage = await response.json();
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
-                    text: response.message,
+                    text: errorMessage.detail,
                 });
             }
         } catch (error) {
+            
             console.error(`Error al crear la flashcard: ${error}`);
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'Error al crear la flashcard',
+                text: 'Ha ocurrido un error al crear la flashcard',
             })
         }
     }

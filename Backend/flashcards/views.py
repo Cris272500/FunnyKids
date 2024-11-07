@@ -96,9 +96,21 @@ class CustomUserViewSet(viewsets.ModelViewSet):
 
 class FlashcardViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny] # esto es para permitir ver sin autenticar
-    queryset = Flashcard.objects.all()
     serializer_class = FlashcardSerializer
+    queryset = Flashcard.objects.all()
     
+    def get_queryset(self):
+        # si no esta autenticado que muestre todas las flashcards
+        if not self.request.user.is_authenticated:
+            print("No esta autenticado")
+            return Flashcard.objects.all()
+        
+        # si esta autenticado que solo muestre las flashcards del usuario
+        if self.request.user.rol == 'profesor':
+            print("Esta autenticado")
+            return Flashcard.objects.filter(creador=self.request.user)
+        
+        return Flashcard.objects.all()
 
     def perform_create(self, serializer):
         # verificamos si no esta autenticado
