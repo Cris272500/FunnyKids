@@ -4,6 +4,9 @@ import './Navbar.css';
 import PersonIcon from '@mui/icons-material/Person';
 
 const Navbar = () => {
+    // obteniendo objeto user del local storage
+    const user = JSON.parse(localStorage.getItem("user"));
+
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
             <div className="container">
@@ -37,7 +40,7 @@ const Navbar = () => {
                         <li className="nav-item profile-item">
                             <div className="profile-container">
                                 <PersonIcon className="profile-icon" />
-                                <div className="username">Cristopher Quintana</div>
+                                <div className="username">{user.username}</div>
                             </div>
                         </li>
                         
