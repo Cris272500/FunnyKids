@@ -1,0 +1,92 @@
+.container {
+    padding: 1rem;
+  }
+  .grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr;
+  }
+  .card {
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  .card-header {
+    margin-bottom: 1rem;
+  }
+  .card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+  .textarea {
+    min-height: 100px;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  .submit-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .plus-icon {
+    margin-right: 0.5rem;
+    width: 16px;
+    height: 16px;
+  }
+  .flashcards-preview {
+    padding: 1.5rem;
+    background: #8685ef;
+    border-radius: 8px;
+  }
+  .preview-title {
+    color: #fff;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .flashcards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .flashcard {
+    background: #fff;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  @media (max-width: 768px) {
+    .navbar-toggle {
+      display: inline-block;
+    }
+    .navbar-links {
+      display: none;
+    }
+  }
+  @media (min-width: 769px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .navbar-links {
+      display: flex;
+      gap: 1rem;
+      margin-left: auto;
+    }
+  }
+  
