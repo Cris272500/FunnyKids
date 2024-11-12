@@ -1,19 +1,34 @@
 // src/App.js
-import logo from './logo.svg';
-import './App.css';
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import Authentication from './components/Authentication';
 import Inicio from './components/Inicio';
+import Categorias from './components/Categorias';
+import Navbar from './components/Navbar';
 
 function App() {
   return (
     <Router>
+      <AppContent />
+    </Router>
+  );
+}
+
+function AppContent() {
+  const location = useLocation();
+
+  return (
+    <>
+      {/* Renderiza el Navbar solo si la ruta no es /autenticacion */}
+      {location.pathname !== '/autenticacion' && <Navbar />}
+      
       <Routes>
         <Route path="/autenticacion" element={<Authentication />} />
         <Route path="/" element={<Inicio />} />
+        <Route path="/categorias" element={<Categorias />} />
+        {/* Otras rutas */}
       </Routes>
-    </Router>
+    </>
   );
 }
 

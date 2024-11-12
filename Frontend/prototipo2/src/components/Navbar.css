@@ -64,6 +64,11 @@ body, html {
     transition: background-color 0.3s;
 }
 
+.navbar-link.active {
+    color: #9747FF; /* Cambia el color del enlace activo */
+    border-bottom: 2px solid #9747FF; /* Agrega un indicador visual para el enlace activo */
+}
+
 .navbar-link:hover {
     background-color: #f0f0f0;
     border-radius: 4px;

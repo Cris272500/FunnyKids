@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import './Navbar.css';
 
 const Navbar = () => {
@@ -12,16 +13,24 @@ const Navbar = () => {
                     </form>
                     <ul className="navbar-nav ml-auto">
                         <li className="nav-item">
-                            <a className="nav-link navbar-link" href="#">Mis Flashcards</a>
+                            <NavLink to="/" className={({ isActive }) => isActive ? "nav-link navbar-link active" : "nav-link navbar-link"}>
+                                Mis flashcards
+                            </NavLink>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link navbar-link" href="#">Categorías</a>
+                            <NavLink to="/categorias" className={({ isActive }) => isActive ? "nav-link navbar-link active" : "nav-link navbar-link"}>
+                                Categorías
+                            </NavLink>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link navbar-link" href="#">Ayuda</a>
+                            <NavLink to="/ayuda" className={({ isActive }) => isActive ? "nav-link navbar-link active" : "nav-link navbar-link"}>
+                                Ayuda
+                            </NavLink>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link navbar-link" href="#">Cerrar sesion</a>
+                            <NavLink to="/autenticacion" className={({ isActive }) => isActive ? "nav-link navbar-link active" : "nav-link navbar-link"}>
+                                Cerrar sesión
+                            </NavLink>
                         </li>
                     </ul>
                 </div>

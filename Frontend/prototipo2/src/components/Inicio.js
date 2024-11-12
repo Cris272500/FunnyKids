@@ -6,7 +6,6 @@ import './Inicio.css';
 const Inicio = () => {
   return (
     <div>
-      <Navbar />
       {/* Puedes agregar más contenido aquí */}
 
       <div class="container">
