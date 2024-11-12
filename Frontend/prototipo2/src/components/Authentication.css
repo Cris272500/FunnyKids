@@ -2,9 +2,7 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     background: linear-gradient(to right, #805ad5, #f472b6); /* Fondo degradado */
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
     min-height: 100vh;
 }
 #app {
@@ -17,6 +15,7 @@ body {
 
 
 .container-main {
+    
     display: flex;
     align-items: center;
     justify-content: center;
@@ -95,7 +94,7 @@ p {
     padding: 8px;
 }
 
-button {
+.login-btn, .register-btn {
     background-color: black;
     color: white;
     width: 100%;
@@ -105,7 +104,7 @@ button {
     margin-top: 16px;
 }
 
-button:hover {
+.login-btn, .register-btn:hover {
     background-color: #374151;
 }
 

@@ -10,8 +10,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Authentication />} />
-        <Route path="/inicio" element={<Inicio />} />
+        <Route path="/autenticacion" element={<Authentication />} />
+        <Route path="/" element={<Inicio />} />
       </Routes>
     </Router>
   );

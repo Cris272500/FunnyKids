@@ -1,0 +1,79 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+.min-h-screen {
+    min-height: 100vh;
+}
+
+.bg-gradient {
+    background: linear-gradient(to right, #9747FF, #B15EFF);
+}
+
+.navbar {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid #ccc;
+    z-index: 1000;
+    padding: 0.8rem 2rem; /* Aumentado padding para más espacio dentro de la barra */
+    display: block; /* Cambiado de flex a block para simplificar */
+}
+
+.title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: inline-block; /* Asegura que la marca esté en línea con los demás elementos */
+    margin-right: 1rem; /* Espacio entre el logo y el buscador */
+}
+
+.navbar-content {
+    display: inline-block;
+}
+
+.navbar-nav {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.nav-item {
+    display: inline-block; /* Para que los enlaces estén en línea */
+}
+
+.search-container {
+    display: inline-block;
+    margin-right: 1rem; /* Espacio entre el buscador y los links */
+}
+
+.search-input {
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-width: 300px;
+}
+
+.navbar-link {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    padding: 0.5rem 1rem;
+    display: inline-block;
+    transition: background-color 0.3s;
+}
+
+.navbar-link:hover {
+    background-color: #f0f0f0;
+    border-radius: 4px;
+}
+
+.logout-button {
+    padding: 0.5rem 1rem;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
