@@ -30,7 +30,7 @@ const Register = () => {
                     <label for='confirmation'>Confirmar Contraseña</label>
                     <input type='password' id='confirmation' required />
                 </div>
-                <button type='submit'>Registrarse</button>
+                <button type='submit' className='register-btn'>Registrarse</button>
                 <p id='register-error' className='error-message' style={{ display: 'none', color: 'red' }}></p>
             </form>
         </div>

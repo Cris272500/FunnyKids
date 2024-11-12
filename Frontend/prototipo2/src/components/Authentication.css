@@ -137,23 +137,3 @@ p {
     padding: 20px;
     box-sizing: border-box;
 }
-
-
-.logout-button:hover {
-    background-color: #d9479e;
-}
-
-.welcome-message {
-    text-align: center;
-    margin-top: 40px;
-}
-
-.welcome-message h2 {
-    font-size: 28px;
-    color: #1f2937;
-}
-
-.welcome-message p {
-    font-size: 18px;
-    color: #4b5563;
-}

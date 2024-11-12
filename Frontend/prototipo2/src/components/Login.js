@@ -15,7 +15,7 @@ const Login = () => {
                     <label for='password-login'>Contraseña</label>
                     <input type='password' id='password-login' required />
                 </div>
-                <button type='submit'>Iniciar Sesión</button>
+                <button type='submit' className='login-btn'>Iniciar Sesión</button>
                 <p id='login-error' className='error-message' style={{ display: 'none', color: 'red' }}></p>
             </form>
 
