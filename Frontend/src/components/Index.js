@@ -39,7 +39,7 @@ export default class Index {
                                 <a class="nav-link navbar-link" href="#">Crear Flashcard</a>
                             </li>
                             <li class="nav-item">
-                                <a id="logout-button" class="nav-link navbar-link btn-dark text-white" href="#">Cerrar sesión</a>
+                                <a id="logout-button" class="nav-link navbar-link" href="#">Cerrar sesión</a>
                             </li>
                         </ul>
                         </div>
