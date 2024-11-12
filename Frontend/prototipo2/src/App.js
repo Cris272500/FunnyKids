@@ -5,6 +5,7 @@ import Authentication from './components/Authentication';
 import Inicio from './components/Inicio';
 import Categorias from './components/Categorias';
 import Navbar from './components/Navbar';
+import Flashcards from './components/Flashcards';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function AppContent() {
         <Route path="/autenticacion" element={<Authentication />} />
         <Route path="/" element={<Inicio />} />
         <Route path="/categorias" element={<Categorias />} />
+        <Route path="/flashcards" element={<Flashcards />} />
         {/* Otras rutas */}
       </Routes>
     </>

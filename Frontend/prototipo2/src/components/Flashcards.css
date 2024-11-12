@@ -1,0 +1,119 @@
+.flashcard-section {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    padding: 2rem;
+  }
+  
+  .flashcard-container {
+    perspective: 1000px;
+    margin: 1.2rem; /* Agrega espacio alrededor de cada tarjeta */
+  }
+  
+  .flashcard {
+    width: 100%;
+    height: 300px;
+    position: relative;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+  }
+  
+  .flashcard.flipped {
+    transform: rotateY(180deg);
+  }
+  
+  .flashcard-front, .flashcard-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+  }
+  
+  .flashcard-back {
+    transform: rotateY(180deg);
+  }
+  
+  /* Progreso */
+  .progress-container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 1rem;
+    background-color: #ffffff;
+    border-radius: 8px;
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  .level-text {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #4a5568; /* Color oscuro */
+  }
+  
+  .progress-text {
+    font-size: 0.9rem;
+    color: #718096; /* Color gris */
+  }
+  
+  .progress-bar {
+    width: 100%;
+    height: 8px;
+    background-color: #e2e8f0;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .progress-bar-inner {
+    height: 100%;
+    background-color: #48bb78;
+    transition: width 0.4s ease;
+  }
+  
+  
+  .button-container {
+    display: flex;
+    justify-content: space-around; /* Espacio entre los botones */
+    gap: 1rem; /* Añadir separación entre los botones */
+    margin-top: 1rem;
+  }
+  
+  .button-container button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .button-container button:hover {
+    opacity: 0.8; /* Efecto de hover */
+  }
+  
+  .button-container button:first-child {
+    background-color: white;
+    color: black;
+    border: 2px solid black; /* Añadir borde para el botón blanco */
+  }
+  
+  .button-container button:last-child {
+    background-color: black;
+    color: white;
+    border: 2px solid black; /* Añadir borde para el botón negro */
+  }
+  
