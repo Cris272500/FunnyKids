@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import './Navbar.css';
+import PersonIcon from '@mui/icons-material/Person';
 
 const Navbar = () => {
     return (
@@ -18,8 +19,8 @@ const Navbar = () => {
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink to="/categorias" className={({ isActive }) => isActive ? "nav-link navbar-link active" : "nav-link navbar-link"}>
-                                Categorías
+                            <NavLink to="/mazos" className={({ isActive }) => isActive ? "nav-link navbar-link active" : "nav-link navbar-link"}>
+                                Mazos
                             </NavLink>
                         </li>
                         <li className="nav-item">
@@ -32,6 +33,14 @@ const Navbar = () => {
                                 Cerrar sesión
                             </NavLink>
                         </li>
+
+                        <li className="nav-item profile-item">
+                            <div className="profile-container">
+                                <PersonIcon className="profile-icon" />
+                                <div className="username">Cristopher Quintana</div>
+                            </div>
+                        </li>
+                        
                     </ul>
                 </div>
             </div>

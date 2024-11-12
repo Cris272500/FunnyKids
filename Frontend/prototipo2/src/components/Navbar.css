@@ -18,7 +18,9 @@ body, html {
     border-bottom: 1px solid #ccc;
     z-index: 1000;
     padding: 0.8rem 2rem; /* Aumentado padding para más espacio dentro de la barra */
-    display: block; /* Cambiado de flex a block para simplificar */
+    display: flex; /* Cambiado a flex para facilitar el alineamiento */
+    justify-content: space-between; /* Asegura que el contenido esté bien distribuido */
+    align-items: center; /* Alinea los elementos verticalmente */
 }
 
 .title {
@@ -33,14 +35,17 @@ body, html {
 }
 
 .navbar-nav {
-    display: inline-block;
+    display: flex; /* Usamos flexbox para la lista */
     margin: 0;
     padding: 0;
     list-style: none;
+    align-items: center; /* Alineamos los items verticalmente */
+    flex-grow: 1; /* Hace que ocupe el máximo espacio disponible */
 }
 
 .nav-item {
-    display: inline-block; /* Para que los enlaces estén en línea */
+    display: inline-block;
+    margin-left: 1rem; /* Espacio entre los enlaces */
 }
 
 .search-container {
@@ -81,4 +86,29 @@ body, html {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+}
+
+/* Estilos para el contenedor de perfil dentro de la lista */
+.profile-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-left: 1rem; /* Espacio entre los links y el perfil */
+}
+
+.profile-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.profile-icon {
+    font-size: 2rem;
+    color: #333;
+    margin-right: 0.5rem;
+}
+
+.username {
+    font-size: 1rem;
+    color: #333;
 }
