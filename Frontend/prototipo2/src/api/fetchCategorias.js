@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 const API_CATEGORIES_URL = "http://127.0.0.1:8000/api/categorias/";
 
 export async function fetchCategorias() {

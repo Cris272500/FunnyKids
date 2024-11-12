@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 export async function fetchCreateFlashcard(flashcard, refreshToken) {
     try {
         let token = localStorage.getItem('accessToken');

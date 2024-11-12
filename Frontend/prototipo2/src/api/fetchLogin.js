@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 const API_LOGIN_URL = "http://127.0.0.1:8000/api/login/";
 
 export async function fetchLogin(username, password) {
