@@ -16,7 +16,8 @@ export async function fetchLogin(username, password) {
             text: '¡Bienvenido a la plataforma!',
         });
 
-        localStorage.setItem('accessToken', response.data.access);
+        localStorage.setItem('accessToken', response.data.tokens.access);
+        localStorage.setItem('refreshToken', response.data.tokens.refresh);
         localStorage.setItem('user', JSON.stringify(response.data.user));
 
         return response.data;

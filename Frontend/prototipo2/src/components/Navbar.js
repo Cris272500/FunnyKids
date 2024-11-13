@@ -1,11 +1,22 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import './Navbar.css';
 import PersonIcon from '@mui/icons-material/Person';
 
 const Navbar = () => {
+    const navigate = useNavigate();
     // obteniendo objeto user del local storage
     const user = JSON.parse(localStorage.getItem("user"));
+
+    const handleLogout = () => {
+        // Limpiamos el Local Storage
+        // Limpiar localStorage
+        localStorage.removeItem("user");
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("refreshToken");
+        // Redirigir a la página de autenticación
+        navigate("/autenticacion");
+    }
 
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
@@ -32,9 +43,9 @@ const Navbar = () => {
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink to="/autenticacion" className={({ isActive }) => isActive ? "nav-link navbar-link active" : "nav-link navbar-link"}>
+                            <span onClick={handleLogout} className="nav-link navbar-link" style={{ cursor: 'pointer' }}>
                                 Cerrar sesión
-                            </NavLink>
+                            </span>
                         </li>
 
                         <li className="nav-item profile-item">
