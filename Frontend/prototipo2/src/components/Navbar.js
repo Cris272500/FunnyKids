@@ -38,8 +38,8 @@ const Navbar = () => {
                             </NavLink>
                         </li>
                         <li className="nav-item">
-                            <NavLink to="/ayuda" className={({ isActive }) => isActive ? "nav-link navbar-link active" : "nav-link navbar-link"}>
-                                Ayuda
+                            <NavLink to="/flashcards" className={({ isActive }) => isActive ? "nav-link navbar-link active" : "nav-link navbar-link"}>
+                                Repaso
                             </NavLink>
                         </li>
                         <li className="nav-item">

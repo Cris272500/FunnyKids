@@ -20,7 +20,8 @@ export async function fetchRegister(username, email, password, rol) {
         });
 
         // Guarda el token de acceso y los datos del usuario en localStorage
-        localStorage.setItem('accessToken', response.data.access); // Asume que el token está en 'access'
+        localStorage.setItem('accessToken', response.data.tokens.access);
+        localStorage.setItem('refreshToken', response.data.tokens.refresh);
         localStorage.setItem('user', JSON.stringify(response.data.user)); // Guarda los datos del usuario
   
         return response.data;

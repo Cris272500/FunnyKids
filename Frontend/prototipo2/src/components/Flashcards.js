@@ -23,6 +23,17 @@ const Flashcards = () => {
     },
   ];
 
+  const playTextToSpeech = (text) => {
+    if ("speechSynthesis" in window) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "en-US"; // Cambia el idioma si es necesario
+      utterance.rate = 0.8; // Ajusta la velocidad a un valor más lento
+      window.speechSynthesis.speak(utterance);
+    } else {
+      console.error("Tu navegador no soporta SpeechSynthesis");
+    }
+  };
+
   const toggleFlip = (index) => {
     setFlipped((prevFlipped) => ({
       ...prevFlipped,
@@ -61,7 +72,12 @@ const Flashcards = () => {
                   style={{ width: "100%", height: "60%" }}
                 />
                 <h3>{flashcard.word}</h3>
-                <button onClick={(e) => e.stopPropagation()}>
+                <button
+                 onClick={(e) => {
+                  e.stopPropagation();
+                  playTextToSpeech(flashcard.word);
+                 }}
+                 >
                   <VolumeUpIcon />
                 </button>
               </div>
